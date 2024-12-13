@@ -50,6 +50,8 @@ def add_boxkey(axis, size=8, x_center=.175, scale=False, ypos=9.5, xshift=0, wid
         sample_data[0] -= .15 * (x_center / .175)
         # Apply x-axis shift to the data
         sample_data += xshift
+    sample_data[sample_data<np.median(sample_data)]-=.005
+    sample_data[sample_data>np.median(sample_data)]+=.005
 
     # Define default boxplot settings with horizontal orientation and mean line
     boxkwargs = dict(vert=False, showmeans=True, meanline=True, 
@@ -75,9 +77,9 @@ def add_boxkey(axis, size=8, x_center=.175, scale=False, ypos=9.5, xshift=0, wid
                   s='Upper\nQuartile', ha='center', va='top', color=sample_boxplot['boxes'][0].get_color(), **txt_kwargs),
         axis.text(sample_boxplot['means'][0].get_xdata()[0], sample_boxplot['means'][0].get_ydata()[-1],
                   s='Mean', ha='center', va='bottom', color=sample_boxplot['means'][0].get_color(), **txt_kwargs),
-        axis.text(sample_boxplot['caps'][0].get_xdata()[0], sample_boxplot['caps'][0].get_ydata()[-1],
+        axis.text(sample_boxplot['caps'][0].get_xdata()[0], sample_boxplot['caps'][0].get_ydata()[-1]+y_offset*2,
                   s='Minimum', ha='center', va='bottom', color=sample_boxplot['caps'][0].get_color(), **txt_kwargs),
-        axis.text(sample_boxplot['caps'][1].get_xdata()[0], sample_boxplot['caps'][1].get_ydata()[-1],
+        axis.text(sample_boxplot['caps'][1].get_xdata()[0], sample_boxplot['caps'][1].get_ydata()[-1]+y_offset*2,
                   s='Maximum', ha='center', va='bottom', color=sample_boxplot['caps'][1].get_color(), **txt_kwargs),
         axis.text(sample_boxplot['fliers'][0].get_xdata()[0], sample_boxplot['fliers'][0].get_ydata()[-1] + y_offset,
                   s='Outliers', ha='center', va='bottom', color=sample_boxplot['fliers'][0].get_color(), **txt_kwargs)
